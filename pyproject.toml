@@ -1,0 +1,19 @@
+[project]
+name = "obsidian-media-upload"
+version = "0.1.0"
+description = "Application to sync media to `Obsidian` via a GitHub repo."
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "fastapi>=0.115.5",
+    "python-dotenv>=1.0.1",
+    "requests>=2.32.3",
+    "uvicorn>=0.32.1",
+]
+
+[project.optional-dependencies]
+testing = [
+    "black>=24.10.0",
+    "pytest>=8.3.4",
+    "setuptools>=75.6.0",
+]
