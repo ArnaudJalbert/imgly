@@ -13,21 +13,40 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
+      # check out the code
       - uses: actions/checkout@v2
 
-      # If you wanted to use multiple Python versions, you'd have specify a matrix in the job and
-      # reference the matrixe python version here.
+      # install python 3.13
       - name: Install Python
         uses: actions/setup-python@v2
         with:
           python-version: 3.13
 
+      # cache the installation of poetry
+      - name: cache poetry install
+        uses: actions/cache@v2
+        with:
+          path: ~/.local
+          key: poetry-1.1.12-0
+
+      # install poetry
       - name: Install Poetry
         uses: snok/install-poetry@v1
 
+      # cache the installation of dependencies
+      - name: cache deps
+        id: cache-deps
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: pydeps-${{ hashFiles('**/poetry.lock') }}
+
+      # install dependencies using poetry if they are not cached
       - run: poetry install --no-interaction --no-root
         if: steps.cache-deps.outputs.cache-hit != 'true'
 
+      # build the package
       - run: poetry install --no-interaction
 
+      # run the tests
       - run: poetry run pytest
