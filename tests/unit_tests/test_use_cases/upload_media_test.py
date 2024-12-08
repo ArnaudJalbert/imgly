@@ -1,7 +1,7 @@
 from unittest.mock import MagicMock
 
-from obsidian_media_upload.entities import Media
-from obsidian_media_upload.use_cases import UploadMediaUseCase
+from imgly.application.entities import Media
+from imgly.application.use_cases import UploadMediaUseCase
 
 
 def test_media_upload_use_case():
@@ -9,7 +9,7 @@ def test_media_upload_use_case():
     use_case = UploadMediaUseCase(repository=repository)
 
     title = "test.jpg"
-    data = bytes("test", "utf-8")
+    data = "test"
 
     input_dto = UploadMediaUseCase.UploadMediaInputDTO(
         media_title=title, media_data=data
@@ -18,4 +18,4 @@ def test_media_upload_use_case():
     use_case.execute(input_dto)
 
     repository.save.assert_called_once()
-    repository.save.assert_called_with(Media(title=title, data=data.decode("utf-8")))
+    repository.save.assert_called_with(Media(title=title, data=data))

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from obsidian_media_upload.entities import Media
+from .entities import Media
 
 
 class Repository(ABC):

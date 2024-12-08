@@ -1,4 +1,4 @@
-from obsidian_media_upload.entities import Media
+from imgly.application.entities import Media
 
 
 def test_create_media_entity():

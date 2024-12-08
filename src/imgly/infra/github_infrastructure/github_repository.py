@@ -7,8 +7,8 @@ import requests
 from dotenv import load_dotenv
 from requests import Response
 
-from obsidian_media_upload.application.repository import Repository
-from obsidian_media_upload.entities.media import Media
+from imgly.application.repository import Repository
+from imgly.application.entities import Media
 
 
 # load the environment variables, to get the GitHub token
@@ -40,12 +40,26 @@ class GitHubRepository(Repository):
         content_url: A string containing the URL to upload/delete media files to the repository.
     """
 
+    # TODO (Arnaud) -> This should be provided at initialization and not hardcoded, maybe saved through a config file
     headers: Dict[str, str] = {
         "Authorization": f"token {os.environ['GITHUB_TOKEN']}",
     }
     content_url: str = (
         "https://api.github.com/repos/ArnaudJalbert/{repo_name}/contents/{upload_path}"
     )
+
+    @staticmethod
+    def _get_path(media: Media) -> str:
+        """Generates the path where the media file will be uploaded.
+
+        Args:
+            media: The media file to save.
+
+        Returns:
+            The path where the media file will be uploaded.
+        """
+        date: str = datetime.today().strftime("%Y-%m-%d")
+        return f"{MEDIA_FOLDER}/{date}/{media.title}"
 
     @classmethod
     def save(cls, media: Media) -> None:
@@ -59,7 +73,7 @@ class GitHubRepository(Repository):
             DuplicateMediaError: The media file already exists in the repository.
         """
         # generate the path where the media file will be uploaded
-        upload_path: str = f"{MEDIA_FOLDER}/{media.title}"
+        upload_path: str = cls._get_path(media)
 
         # generate the commit message if the media file has does not have a description
         # if the media file has a description, use it as the commit message
@@ -109,7 +123,7 @@ class GitHubRepository(Repository):
             DeleteMediaError: An error occurred while deleting the media file.
         """
         # generate the path where the media file will be deleted
-        delete_path: str = f"{MEDIA_FOLDER}/{media.title}"
+        delete_path: str = cls._get_path(media)
 
         # generate the commit message if the media file has does not have a description
         # if the media file has a description, use it as the commit message
