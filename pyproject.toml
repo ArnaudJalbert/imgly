@@ -1,19 +1,23 @@
-[project]
-name = "obsidian-media-upload"
+[tool.poetry]
+name = "imgly"
 version = "0.1.0"
-description = "Application to sync media to `Obsidian` via a GitHub repo."
+description = "CLI tool to manipulate and manage medias."
+authors = ["ArnaudJalbert <arno.jalbert@gmail.com>"]
+license = "MIT"
 readme = "README.md"
-requires-python = ">=3.9"
-dependencies = [
-    "fastapi>=0.115.5",
-    "python-dotenv>=1.0.1",
-    "requests>=2.32.3",
-    "uvicorn>=0.32.1",
-]
 
-[project.optional-dependencies]
-testing = [
-    "black>=24.10.0",
-    "pytest>=8.3.4",
-    "setuptools>=75.6.0",
-]
+[tool.poetry.dependencies]
+python = "^3.13"
+typer = "^0.15.1"
+requests = "^2.32.3"
+python-dotenv = "^1.0.1"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
