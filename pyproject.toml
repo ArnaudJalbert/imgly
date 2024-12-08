@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "imgly"
-version = "0.1.0"
+version = "0.2.0"
 description = "CLI tool to manipulate and manage medias."
 authors = ["ArnaudJalbert <arno.jalbert@gmail.com>"]
 license = "MIT"
