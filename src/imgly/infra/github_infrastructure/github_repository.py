@@ -42,7 +42,7 @@ class GitHubRepository(Repository):
 
     # TODO (Arnaud) -> This should be provided at initialization and not hardcoded, maybe saved through a config file
     headers: Dict[str, str] = {
-        "Authorization": f"token {os.environ['GITHUB_TOKEN']}",
+        "Authorization": f"token {os.environ['GH_TOKEN']}",
     }
     content_url: str = (
         "https://api.github.com/repos/ArnaudJalbert/{repo_name}/contents/{upload_path}"
