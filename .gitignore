@@ -11,3 +11,7 @@ coverage_re/
 # Virtual environments
 .venv
 *.env
+
+# Jetbrains Files
+.idea/
+.fleet/
