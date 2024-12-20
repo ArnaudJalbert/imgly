@@ -8,11 +8,7 @@ from rich import print
 
 from imgly.constants import SUPPORTED_IMAGES_EXTENSIONS
 from imgly import ImglyController
-from imgly.infra.github_infrastructure import (
-    GitHubRepository,
-    DuplicateMediaError,
-    UploadMediaError,
-)
+from imgly.infra.github_infrastructure import *
 
 app: typer.Typer = typer.Typer()
 github_repository: GitHubRepository = GitHubRepository()
