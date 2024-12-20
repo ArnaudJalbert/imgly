@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "imgly"
-version = "0.2.0"
+version = "0.3.0"
 description = "CLI tool to manipulate and manage medias."
 authors = ["ArnaudJalbert <arno.jalbert@gmail.com>"]
 license = "MIT"
@@ -16,6 +16,7 @@ rich = "^13.9.4"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.4"
+pytest-cov = "^6.0.0"
 
 [build-system]
 requires = ["poetry-core"]

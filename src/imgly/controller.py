@@ -55,9 +55,9 @@ class ImglyController:
         use_case = UploadMediaUseCase(repository=self.repository)
 
         # construct the use case DTO
-        dto: UploadMediaUseCase.UploadMediaInputDTO = (
+        upload_use_case_dto: UploadMediaUseCase.UploadMediaInputDTO = (
             UploadMediaUseCase.UploadMediaInputDTO(**asdict(dto))
         )
 
         # execute the use case
-        use_case.execute(dto)
+        use_case.execute(upload_use_case_dto)

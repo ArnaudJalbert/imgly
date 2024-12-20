@@ -4,8 +4,14 @@ __pycache__/
 build/
 dist/
 wheels/
+coverage_re/
 *.egg-info
+*.coverage
 
 # Virtual environments
 .venv
 *.env
+
+# Jetbrains Files
+.idea/
+.fleet/

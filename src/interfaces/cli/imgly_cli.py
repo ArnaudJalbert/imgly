@@ -1,6 +1,6 @@
 import base64
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Set
 
 import typer
 
@@ -78,8 +78,59 @@ def upload_file(
 
 
 @app.command()
-def upload_directory(file_path: str):
-    print(f"Uploading `[italic]{file_path}[/italic]` to GitHub.")
+def upload_directory(directory_path: str) -> None:
+
+    # convert the directory path to a Path object
+    directory = Path(directory_path)
+
+    # check if the directory exists
+    if not directory.is_dir():
+        print(
+            f"[bold red]Error:[/bold red] The directory `{directory.name}` does not exist."
+        )
+        raise typer.Abort()
+
+    # get the elements in the directory
+    elements: Set[Path] = set(directory.iterdir())
+
+    # check if the directory is empty
+    if not elements:
+        print(f"[bold red]Error:[/bold red] The directory `{directory.name}` is empty.")
+        raise typer.Abort()
+
+    # filter the elements to only include supported image types
+    filtered_elements: Set[Path] = {
+        e for e in elements if e.suffix in SUPPORTED_IMAGES_EXTENSIONS
+    }
+
+    # check if there are unsupported image types
+    if filtered_elements != elements:
+        print(
+            f"[bold yellow]Warning:[/bold yellow] Some files in the directory `{directory.name}` "
+            f"are not supported image types ({", ".join(SUPPORTED_IMAGES_EXTENSIONS)}): "
+            f"\n {"\n".join([str(e) for e in elements - filtered_elements])}"
+        )
+        typer.confirm(
+            text="Do you want to continue uploading the supported image types?",
+            default=False,
+            abort=True,
+            show_default=True,
+        )
+
+    print(f"Uploading [blue italic]{directory.name}[/blue italic] directory to GitHub")
+
+    # iterate over the filtered elements and upload them
+    for element in filtered_elements:
+        print(f"Uploading [blue italic]{element.name}[/blue italic] to GitHub")
+        dto = controller.UploadMediaInputDTO(
+            media_title=element.name,
+            media_data=base64.b64encode(element.read_bytes()).decode("utf-8"),
+        )
+        controller.upload_media(dto)
+
+    print(
+        f"[green bold]Directory {directory.name} was successfully uploaded to GitHub.[/green bold]"
+    )
 
 
 def main() -> None:
